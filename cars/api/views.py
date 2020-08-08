@@ -13,8 +13,14 @@ class CarsAPIView(APIView):
         return cars
 
     def get(self, request, *args, **kwargs):
-        cars = self.get_queryset()
-        serializer = CarsSerializer(cars, many=True)
+        try:
+            id = request.query_params["id"]
+            if id != None:
+                car = Cars.objects.get(id=id)
+                serializer = CarsSerializer(car)
+        except:
+            cars = self.get_queryset()
+            serializer = CarsSerializer(cars, many=True)
 
         return Response(serializer.data)
 
