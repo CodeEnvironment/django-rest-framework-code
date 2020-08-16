@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'rest_auth.registration',
     'firstApp',
-    'cars'
+    'cars',
+    'posts'
 ]
 
 SITE_ID = 1
