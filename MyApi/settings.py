@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'firstApp',
     'cars',
     'posts',
-    'userapp'
+    'userapp',
+    'school'
 ]
 
 SITE_ID = 1
