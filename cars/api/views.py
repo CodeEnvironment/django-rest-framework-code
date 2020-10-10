@@ -35,3 +35,19 @@ class CarsAPIView(APIView):
         serializer = CarsSerializer(new_car)
 
         return Response(serializer.data)
+
+    def put(self, request, *args, **kwargs):
+        car_object = Cars.objects.get()
+
+        data = request.data
+
+        car_object.car_brand = data["car_brand"]
+        car_object.car_model = data["car_model"]
+        car_object.production_year = data["production_year"]
+        car_object.car_body = data["car_body"]
+        car_object.engine_type = data["engine_type"]
+
+        car_object.save()
+
+        serializer = CarsSerializer(car_object)
+        return Response(serializer.data)

@@ -1,4 +1,3 @@
-
 from rest_framework import serializers
 from posts.models import Posts, PostsRates
 
@@ -15,4 +14,3 @@ class PostsRatesSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostsRates
         fields = ["id", "likes", "dislikes"]
-

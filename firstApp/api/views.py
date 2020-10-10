@@ -33,14 +33,14 @@ class CarSpecsViewset(viewsets.ModelViewSet):
         car_specs = CarSpecs.objects.all()
         return car_specs
 
-    def retrieve(self, request, *args, **kwargs):
-        params = kwargs
-        print(params['pk'])
-        params_list = params['pk'].split('-')
-        cars = CarSpecs.objects.filter(
-            car_brand=params_list[0], car_model=params_list[1])
-        serializer = CarSpecsSerializer(cars, many=True)
-        return Response(serializer.data)
+    # def retrieve(self, request, *args, **kwargs):
+    #     params = kwargs
+    #     print(params['pk'])
+    #     params_list = params['pk'].split('-')
+    #     cars = CarSpecs.objects.filter(
+    #         car_brand=params_list[0], car_model=params_list[1])
+    #     serializer = CarSpecsSerializer(cars, many=True)
+    #     return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
         car_data = request.data
@@ -54,13 +54,32 @@ class CarSpecsViewset(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-    # def destroy(self, request, *args, **kwargs):
-    #     logedin_user = request.user
-    #     if(logedin_user == "admin"):
-    #         car = self.get_object()
-    #         car.delete()
-    #         response_message = {"message": "Item has been deleted"}
-    #     else:
-    #         response_message = {"message": "Not Allowed"}
+    def destroy(self, request, *args, **kwargs):
+        logedin_user = request.user
+        if(logedin_user == "admin"):
+            car = self.get_object()
+            car.delete()
+            response_message = {"message": "Item has been deleted"}
+        else:
+            response_message = {"message": "Not Allowed"}
 
-    #     return Response(response_message)
+        return Response(response_message)
+
+    def update(self, request, *args, **kwargs):
+        car_object = self.get_object()
+        data = request.data
+
+        car_plan = CarPlan.objects.get(plan_name=data["plan_name"])
+
+        car_object.car_plan = car_plan
+        car_object.car_brand = data["car_brand"]
+        car_object.car_model = data["car_model"]
+        car_object.production_year = data["production_year"]
+        car_object.car_body = data["car_body"]
+        car_object.engine_type = data["engine_type"]
+
+        car_object.save()
+
+        serializer = CarSpecsSerializer(car_object)
+
+        return Response(serializer.data)
