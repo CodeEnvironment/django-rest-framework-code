@@ -4,6 +4,10 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import viewsets
 from .serializer import CarSpecsSerializer
 from firstApp.models import CarSpecs, CarPlan
+import json
+from rest_framework.decorators import parser_classes
+from rest_framework.parsers import JSONParser
+import os
 
 
 @api_view()
@@ -24,6 +28,17 @@ def deleteObjects(request):
     number = request.query_params['PID']
     CarSpecs.objects.filter(car_brand="Mercedes").delete()
     return Response({'message': "deleted all Mercedes cars"})
+
+
+@api_view(['GET'])
+@parser_classes([JSONParser])
+def example(req, format=None):
+    print(os.getcwd())
+    with open("firstapp/api/load/abc.json", "r") as file:
+        data = file.read()
+    json_data = json.loads(data)
+    file.close()
+    return Response({"data": json_data})
 
 
 class CarSpecsViewset(viewsets.ModelViewSet):
@@ -77,6 +92,28 @@ class CarSpecsViewset(viewsets.ModelViewSet):
         car_object.production_year = data["production_year"]
         car_object.car_body = data["car_body"]
         car_object.engine_type = data["engine_type"]
+
+        car_object.save()
+
+        serializer = CarSpecsSerializer(car_object)
+
+        return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+        car_object = self.get_object()
+        data = request.data
+
+        try:
+            car_plan = CarPlan.objects.get(plan_name=data["plan_name"])
+            car_object.car_plan = car_plan
+        except KeyError:
+            pass
+
+        car_object.car_brand = data.get("car_brand", car_object.car_brand)
+        car_object.car_model = data.get("car_model", car_object.car_model)
+        car_object.production_year = data.get("production_year", car_object.production_year)
+        car_object.car_body = data.get("car_body", car_object.car_body)
+        car_object.engine_type = data.get("engine_type", car_object.engine_type)
 
         car_object.save()
 
