@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'posts',
     'userapp',
     'school',
-    'racing'
+    'racing',
+    'weather.apps.WeatherConfig',
 ]
 
 SITE_ID = 1
@@ -162,8 +163,8 @@ ACCOUNT_EMAIL_REQUIRED = False
 #gmail_send/settings.py
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'Your gmail account'
-EMAIL_HOST_PASSWORD = 'your password' 
+EMAIL_HOST_USER = 'codes.environment@gmail.com'
+EMAIL_HOST_PASSWORD = 'emqcfqqghtgndxqq' 
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'default from email'
