@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from cars.models import Cars,
+from cars.models import Cars
 
 
 class CarsSerializer(serializers.ModelSerializer):

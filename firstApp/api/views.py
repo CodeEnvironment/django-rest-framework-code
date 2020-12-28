@@ -43,7 +43,8 @@ def example(req, format=None):
 
 class CarSpecsViewset(viewsets.ModelViewSet):
     serializer_class = CarSpecsSerializer
-
+    throttle_scope = "first_app"
+    
     def get_queryset(self):
         car_specs = CarSpecs.objects.all()
         return car_specs

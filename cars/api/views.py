@@ -2,12 +2,14 @@
 from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework.response import Response
-from .serializer import CarsSerializer, StoreClosingStockSerializer
-from cars.models import Cars, StoreClosingStock
+from .serializer import CarsSerializer
+from rest_framework.throttling import UserRateThrottle
+from cars.models import Cars
 
 
 class CarsAPIView(APIView):
     serializer_class = CarsSerializer
+    throttle_scope = "cars_app"
 
     def get_queryset(self):
         cars = Cars.objects.all()

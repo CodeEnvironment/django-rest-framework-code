@@ -1,5 +1,5 @@
 from django.conf.urls import url, include
-from .views import firstFunction, deleteObjects
+from .views import firstFunction, deleteObjects, example
 from rest_framework.routers import DefaultRouter
 from .views import CarSpecsViewset
 
