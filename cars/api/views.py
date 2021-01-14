@@ -16,6 +16,7 @@ class CarsAPIView(APIView):
         return cars
 
     def get(self, request, *args, **kwargs):
+        
         try:
             id = request.query_params["id"]
             if id != None:
@@ -40,7 +41,8 @@ class CarsAPIView(APIView):
         return Response(serializer.data)
 
     def put(self, request, *args, **kwargs):
-        car_object = Cars.objects.get()
+        id = request.query_params["id"]
+        car_object = Cars.objects.get(id=id)
 
         data = request.data
 
