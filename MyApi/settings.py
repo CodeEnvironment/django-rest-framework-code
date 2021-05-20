@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'racing',
     'weather.apps.WeatherConfig',
     'albums',
+    'snippets'
 ]
 
 SITE_ID = 1
@@ -140,12 +141,14 @@ REST_FRAMEWORK = {
         'cars_app': '50/day',
         'first_app': '4/day'
     }
-
+    ,
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+        'PAGE_SIZE': 2
+    
 }
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'userapp.serializer.UserDetailsSerializer'
-
 }
 
 CACHES = {
